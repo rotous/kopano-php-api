@@ -16,9 +16,7 @@ abstract class MapiObject {
 	protected $_defaultPropertiesFetched = false;
 
 	public function __construct($entryId=NULL){
-		if ( $entryId ){
-			$this->_entryId = $entryId;
-		}
+		$this->setEntryId($entryId);
 
 		$this->_init();
 	}
@@ -27,6 +25,18 @@ abstract class MapiObject {
 	 * Subclasses should implement this function to add their own property keys
 	 */
 	protected function _init() {}
+
+	public function setEntryId($entryId) {
+		if ( $entryId ){
+			$this->_entryId = $entryId;
+		}
+
+		return $this;
+	}
+
+	public function getEntryId() {
+		return isset($this->_entryId) ? $this->_entryId : false;
+	}
 
 	public function setResource($resource){
 		if ( is_resource($resource) ){ // TODO: check the resource type
@@ -40,7 +50,7 @@ abstract class MapiObject {
 	}
 
 	protected function _addPropertyKeys($propertyKeys){
-		$this->_defaultPropertyKeys = array_merge($this->_defaultPropertyKeys, $propertyKeys);
+		$this->_defaultPropertyKeys = array_values(array_unique(array_merge($this->_defaultPropertyKeys, $propertyKeys)));
 	}
 
 	public function addProperties($properties) {
@@ -50,13 +60,16 @@ abstract class MapiObject {
 	}
 
 	public function getProperties($propertyKeys=false) {
-		if ( $propertyKeys === false ){
-			return $this->_properties;
-		}
-
 		if ( !$this->_defaultPropertiesFetched ){
+			if ( !$propertyKeys ){
+				return $this->_properties;
+			}
 			$propertyKeys = array_merge($propertyKeys, $this->_defaultPropertyKeys);
 			$this->_defaultPropertiesFetched = true;
+		}
+
+		if ( $propertyKeys === false ){
+			return $this->_properties;
 		}
 
 		$allPropsFetched = true;
@@ -90,7 +103,28 @@ abstract class MapiObject {
 		return isset($properties[$propertyKey]) ? $properties[$propertyKey] : NULL;
 	}
 
-	public function getDefaultProperties() {
+	public function getDefaultPropertyKeys() {
+		return $this->_defaultPropertyKeys;
+	}
 
+	public function setProperties($properties){
+		$this->open();
+
+		try {
+			$result = mapi_setprops($this->_resource, $properties);
+			if ( $result ){
+				$this->addProperties($properties);
+			}
+
+			return $result;
+		} catch (MAPIException $e) {
+			// TODO: Error handling
+		}
+
+		return false;
+	}
+
+	public function setProperty($key, $value) {
+		return $this->setProperties(array($key=>$value));
 	}
 }

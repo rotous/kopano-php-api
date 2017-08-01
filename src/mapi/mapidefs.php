@@ -617,4 +617,19 @@ define('fnevStatusObjectModified',    0x00000200);
 define('fnevReservedForMapi',         0x40000000);
 define('fnevExtended',                0x80000000);
 
-?>
+/* PersistBlockType values */
+define('PERSIST_SENTINEL',                0x0000);
+define('RSF_PID_RSS_SUBSCRIPTION',        0x8001);
+define('RSF_PID_SEND_AND_TRACK',          0x8002);
+define('RSF_PID_TODO_SEARCH',             0x8004);
+define('RSF_PID_CONV_ACTIONS',            0x8006);
+define('RSF_PID_COMBINED_ACTIONS',        0x8007);
+define('RSF_PID_SUGGESTED_CONTACTS',      0x8008);
+define('RSF_PID_CONTACT_SEARCH',          0x8009);
+define('RSF_PID_BUDDYLIST_PDLS',          0x800A);
+define('RSF_PID_BUDDYLIST_CONTACTS',      0x800B);
+
+/* PersistElementType Values */
+define('ELEMENT_SENTINEL',                0x0000);
+define('RSF_ELID_ENTRYID',                0x0001);
+define('RSF_ELID_HEADER',                 0x0002);

@@ -41,6 +41,13 @@ class Logger {
 						);
 					}
 				}
+			} elseif ( $param2 instanceof MapiObject ){
+				$mapiObj = $param2;
+				$param2 = array(
+					'className' => get_class($mapiObj),
+					'defaultPropertyKeys' => array_keys(Logger::parseProps(array_combine($mapiObj->getDefaultPropertyKeys(), array_keys($mapiObj->getDefaultPropertyKeys())))),
+					'properties' => Logger::parseProps($mapiObj->getProperties())
+				);
 			}
 			var_dump($param2);
 			echo '</pre>';

@@ -14,4 +14,20 @@ class SearchFolder extends Folder {
 			//TODO: Error handling
 		}
 	}
+
+	/**
+	 * Sets a search restriction on the search folder.
+	 * @param Array $restriction The search restriction that will be set on the search folder
+	 * @param Array $folderEntryIds An array of (binary) entryids of the folders to which the search will apply.
+	 * @param long $flags The flags that will be set for the searching
+	 */
+	public function setRestriction($restriction, $folderEntryIds, $flags=SHALLOW_SEARCH) {
+		$this->open();
+
+		try{
+			mapi_folder_setsearchcriteria($this->_resource, $restriction, $folderEntryIds, $flags);
+		} catch (MAPIException $e){
+			// TODO: Error handling
+		}
+	}
 }

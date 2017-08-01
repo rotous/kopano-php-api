@@ -76,18 +76,30 @@ class User {
 			$webapp_version = '';
 		}
 		$browser = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+		$mapiVersion = phpversion('mapi');
 
 		try{
-			$this->_mapiSession = mapi_logon_zarafa(
-				$this->_username,
-				$this->_password,
-				$this->_server->getAddress(),
-				$this->_server->getSslCertificateFile(),
-				$this->_server->getSslCertificatePass(),
-				1,
-				$webapp_version,
-				$browser
-			);
+			if ( version_compare($mapiVersion, '7.2') === 1 ){
+				$this->_mapiSession = mapi_logon_zarafa(
+					$this->_username,
+					$this->_password,
+					$this->_server->getAddress(),
+					$this->_server->getSslCertificateFile(),
+					$this->_server->getSslCertificatePass(),
+					1,
+					$webapp_version,
+					$browser
+				);
+			} else {
+				$this->_mapiSession = mapi_logon_zarafa(
+					$this->_username,
+					$this->_password,
+					$this->_server->getAddress(),
+					$this->_server->getSslCertificateFile(),
+					$this->_server->getSslCertificatePass(),
+					1
+				);
+			}
 		} catch(MAPIException $e){
 			// TODO: Error handling
 			Logger::log('exception during logon', $e->getMessage());

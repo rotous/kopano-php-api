@@ -70,6 +70,7 @@ class Item extends MapiObject {
 			$this->setResource($resource);
 		} catch (MAPIException $e){
 			//TODO: Error handling
+			Logger::log('Exception: ',$e);
 		}
 
 		return $this;
