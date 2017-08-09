@@ -22,9 +22,18 @@ abstract class MapiObject {
 	}
 
 	/**
-	 * Subclasses should implement this function to add their own property keys
 	 */
-	protected function _init() {}
+	protected function _init() {
+		$class = get_class($this);
+		while ( $class !== 'Kopano\Api\MapiObject' ){
+			if ( isset($class::$_propertyKeys) && is_array($class::$_propertyKeys) ) {
+				$this->_defaultPropertyKeys =
+					array_values(array_unique(array_merge($this->_defaultPropertyKeys, $class::$_propertyKeys)));
+			};
+
+			$class = get_parent_class($class);
+		}
+	}
 
 	public function setEntryId($entryId) {
 		if ( $entryId ){
@@ -49,9 +58,7 @@ abstract class MapiObject {
 		return $this->_resource;
 	}
 
-	protected function _addPropertyKeys($propertyKeys){
-		$this->_defaultPropertyKeys = array_values(array_unique(array_merge($this->_defaultPropertyKeys, $propertyKeys)));
-	}
+	abstract public function open();
 
 	public function addProperties($properties) {
 		foreach ( $properties as $k=>$v ){

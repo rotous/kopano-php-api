@@ -13,10 +13,4 @@ class CommonViewsFolder extends Folder {
 		PR_WLINK_RECKEY,
 		PR_NORMALIZED_SUBJECT,
 	);
-
-	protected function _init() {
-		$this->_addItemPropertyKeys(CommonViewsFolder::$_itemPropertyKeys);
-
-		parent::_init();
-	}
 }

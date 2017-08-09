@@ -3,8 +3,8 @@
 namespace Kopano\Api;
 
 class CommonViewMessage extends Message {
-/*
-	protected $_defaultPropertyKeys = array(
+
+	static protected $_propertyKeys = array(
 		PR_WLINK_ENTRYID,
 		PR_WLINK_FLAGS,
 		PR_WLINK_ORDINAL,
@@ -13,5 +13,4 @@ class CommonViewMessage extends Message {
 		PR_WLINK_SECTION,
 		PR_WLINK_RECKEY,
 	);
-*/
 }

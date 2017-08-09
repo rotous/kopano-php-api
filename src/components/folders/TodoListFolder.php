@@ -2,6 +2,7 @@
 
 namespace Kopano\Api;
 
+require_once(__DIR__ . '/../../mapi/mapitags.php');
 require_once(__DIR__ . '/../../mapi/mapiguid.php');
 
 require_once(__DIR__ . '/../SearchFolder.php');
@@ -60,7 +61,7 @@ class TodoListFolder extends SearchFolder {
             mapi_savechanges($resource); // TODO: is this necessary???
 
             // Set the container class
-            $todoList->setProperty(PR_CONTAINER_CLASS, 'IPM.Task');
+            $todoList->setProperty(PR_CONTAINER_CLASS, 'IPF.Task');
 
             // Add the entryid to the store
             $store->addEntryIdToAdditionalEntryIdsEx(RSF_PID_TODO_SEARCH, $todoList->getEntryId());

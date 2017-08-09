@@ -17,12 +17,6 @@ class FinderFolder extends Folder {
 
 	);
 
-    protected function _init() {
-        $this->_addItemPropertyKeys(FinderFolder::$_defaultItemPropertyKeys);
-
-        parent::_init();
-    }
-
     /**
      * Factory function to get an instance of the FinderFolder for a store
      * @param  Kopano\Api\Store $store The message store for which the finder folder will be returned
@@ -56,7 +50,7 @@ class FinderFolder extends Folder {
      */
     private static function _getFinderEntryId($store) {
         // check if we can create search folders
-        $storeProperties = mapi_getprops($store->getResource(), array(PR_STORE_SUPPORT_MASK, PR_FINDER_ENTRYID));
+        $storeProperties = $store->getProperties(array(PR_STORE_SUPPORT_MASK, PR_FINDER_ENTRYID));
         if ( ($storeProperties[PR_STORE_SUPPORT_MASK] & STORE_SEARCH_OK) !== STORE_SEARCH_OK ) {
             // store doesn't support search folders (public store doesn't have FINDER_ROOT folder)
             return false;

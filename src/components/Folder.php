@@ -8,6 +8,11 @@ require_once(__DIR__ . '/Item.php');
 require_once(__DIR__ . '/Message.php');
 
 class Folder extends Item {
+	/**
+	 * The properties that this class adds to the ones that will be fetched by default
+	 * when one or more roperties are fetched using getProperty() or getProperties()
+	 * @var Array
+	 */
 	static protected $_propertyKeys = array(
 		PR_FOLDER_TYPE,
 		PR_DISPLAY_NAME,
@@ -23,6 +28,7 @@ class Folder extends Item {
 	 * getProperties() or getProperty() will also fetch these properties.
 	 * Subclasses of the Folder class can call _addItemPropertyKeys() to add
 	 * properties to this array. (preferably in their constructor)
+	 * @var Array
 	 */
 	private $_defaultItemPropertyKeys = array(
 		PR_ENTRYID,
@@ -33,21 +39,42 @@ class Folder extends Item {
 		PR_SUBJECT,
 	);
 
+	/**
+	 * Initializes the object by populating the $_itemPropertyKeys array which contains the properties
+	 * that will be retrieved with the getItems method of the folder
+	 */
 	protected function _init() {
-		$this->_addPropertyKeys(Folder::$_propertyKeys);
+		// Loop over the class of the object and all its parents up to the Kopano\Api\Folder class
+		// to find the defined item properties
+		$class = get_class($this);
+		while ( $class !== 'Kopano\Api\Folder' ){
+			if ( isset($class::$_itemPropertyKeys) && is_array($class::$_itemPropertyKeys) ) {
+				$this->_defaultItemPropertyKeys =
+					array_values(array_unique(array_merge($this->_defaultItemPropertyKeys, $class::$_itemPropertyKeys)));
+			};
+
+			$class = get_parent_class($class);
+		}
 
 		parent::_init();
 	}
 
-	protected function _addItemPropertyKeys($propertyKeys){
-		$this->_defaultItemPropertyKeys = array_merge($this->_defaultItemPropertyKeys, $propertyKeys);
-	}
-
+	/**
+	 * Returns the type of the folder (PR_FOLDER_TYPE)
+	 *
+	 * @return Integer The value of the PR_FOLDER_TYPE property
+	 */
 	public function getType() {
 		$this->open();
 		return $this->getProperty(PR_FOLDER_TYPE);
 	}
 
+	/**
+	 * Returns the subfolders of this folder.
+	 *
+	 * @return Array An array of Kopano\Api\Folder objects. Search folders will be represented by
+	 * Kopano\Api\SearchFolder objects.
+	 */
 	public function getSubFolders() {
 		$this->open();
 

@@ -9,7 +9,7 @@ class Item extends MapiObject {
 	protected $_store;
 	protected $_folder;
 
-	static protected $_itemPropertyKeys = array(
+	static protected $_propertyKeys = array(
 		PR_ENTRYID,
 		PR_PARENT_ENTRYID,
 		PR_STORE_ENTRYID,
@@ -24,12 +24,6 @@ class Item extends MapiObject {
 		}
 
 		parent::__construct($entryId);
-	}
-
-	protected function _init() {
-		$this->_addPropertyKeys(Item::$_itemPropertyKeys);
-
-		parent::_init();
 	}
 
 	public function setStore($store){
@@ -62,7 +56,7 @@ class Item extends MapiObject {
 	public function open($force=false)
 	{
 		if ( is_resource($this->_resource) && !$force ){
-			return $this->_resource;
+			return $this;
 		}
 
 		try {

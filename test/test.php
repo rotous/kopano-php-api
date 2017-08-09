@@ -1,35 +1,28 @@
 <?php
 
-require_once(__DIR__ . '/../src/mapi/mapitags.php');
+require_once(__DIR__ . '/../src/kopano-api.php');
 
-require_once(__DIR__ . '/../src/util/Logger.php');
 use \Kopano\Api\Logger as Logger;
 
-require_once(__DIR__ . '/../src/components/User.php');
-require_once(__DIR__ . '/../src/components/Folder.php');
-require_once(__DIR__ . '/../src/components/folders/CommonViewsFolder.php');
-require_once(__DIR__ . '/../src/components/folders/FinderFolder.php');
-require_once(__DIR__ . '/../src/components/folders/TodoListFolder.php');
+$server = new \Kopano\Api\Server('default:');
+//$server = new \Kopano\Api\Server('https://email.kopano.com:237/kopano');
 
-//*
-$user = new \Kopano\Api\User('user3', 'user3');
-$user->setServer('default:');
-/*/
-$user = new \Kopano\Api\User('rtoussaint', '*');
-$user->setServer('https://email.kopano.com:237/kopano');
-//*/
-//$user = new \Kopano\Api\User('ronald', 'bigron');
-//$user->setServer('http://localhost:236/kopano');
-
+$user = $server->getUser('user3', 'user3');
 $user->logon();
 
-$todolist = $user->getStore()->getTodoList();
-$todolist->getProperty(PR_ENTRYID);
-Logger::log('todolist', $todolist);
+//$todolist = $user->getStore()->getTodoList();
+//$todolist->getProperty(PR_ENTRYID);
+//Logger::log('todolist', $todolist);
 
-Logger::log('todo items', $todolist->getItems());
-Logger::logRestrictionHtml('todo restriction', $todolist->getSearchRestriction()['restriction']);
+$finderFolder = $user->getStore()->getFinderFolder();
+$finderFolder->getProperty(PR_ENTRYID);
+Logger::log($finderFolder);
 
-//$root = $user->getStore()->getRoot();
-//$todosearchFolder = $root->getSubFolders()[0];
-//$todosearchFolder->delete();
+$searchFolders = $finderFolder->getSubFolders();
+Logger::log('SearchFolders in FINDER', $searchFolders);
+
+if ( count($searchFolders) > 0 ){
+    foreach ($searchFolders as $i => $searchFolder) {
+        Logger::log('Items in search folder ' . $i . ': ' . $searchFolder->getProperty(PR_DISPLAY_NAME), $searchFolder->getItems());
+    }
+}

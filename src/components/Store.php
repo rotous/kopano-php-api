@@ -2,11 +2,15 @@
 
 namespace Kopano\Api;
 
+require_once(__DIR__ . '/../mapi/mapidefs.php');
+require_once(__DIR__ . '/../mapi/mapitags.php');
+
 require_once (__DIR__ . '/MapiObject.php');
-require_once (__DIR__ . '/folders/RootFolder.php');
 require_once (__DIR__ . '/SearchFolder.php');
+require_once (__DIR__ . '/folders/RootFolder.php');
 require_once (__DIR__ . '/folders/CommonViewsFolder.php');
 require_once (__DIR__ . '/folders/TodoListFolder.php');
+require_once (__DIR__ . '/folders/FinderFolder.php');
 
 class Store extends MapiObject{
 
@@ -110,6 +114,9 @@ class Store extends MapiObject{
 	}
 
 	/**
+	 * TODO: Let's move this to its own class. (make classes for properties like these that need some logic
+	 * of their own)
+	 *
 	 * Parses the passed value of PR_ADDITIONAL_REN_ENTRYIDS_EX. Will return an array of entryids,
 	 * where the key is a PersistBlockType (see https://msdn.microsoft.com/en-us/library/office/cc842311.aspx)
 	 * and the value the entryid of the blocktype.
@@ -265,6 +272,10 @@ class Store extends MapiObject{
 
 	public function getTodoList() {
 		return TodoListFolder::getInstance($this);
+	}
+
+	public function getFinderFolder() {
+		return FinderFolder::getInstance($this);
 	}
 
 	public function getFolderFromEntryId($entryId, $folderClass=NULL) {
