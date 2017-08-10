@@ -2,17 +2,40 @@
 
 namespace Kopano\Api;
 
+/**
+ * The MapiObject class is the base class for all MAPI objects like stores, folders and messages.
+ */
 abstract class MapiObject {
+	/**
+	 * The entryid of the object (binary string)
+	 * @var String
+	 */
 	protected $_entryId;
+
+	/**
+	 * The MAPI Resource that is used in the php-mapi functions
+	 * @var Resource
+	 */
 	protected $_resource;
+
+	/**
+	 * The properties that have been fetched from the Kopano Server for this MAPI object.
+	 * @var Array
+	 */
 	protected $_properties = array();
 
 	/**
-	 * Every message or folder can define his own default property keys
-	 * in this array. They will be fetched upon the first call to
-	 * getProperties() (or getProperty())
+	 * The properties that will be fetched upon the first call to getProperties() or getProperty().
+	 * Subclasses can add properties by simply implementing a static protected array called $_propertyKeys.
+	 * @example "Item.php" The Item class implements the $_propertyKeys array
+	 * @var Array
 	 */
 	protected $_defaultPropertyKeys = array();
+
+	/**
+	 * Initially false. Will be set to true when the properties defined in 
+	 * @var [type]
+	 */
 	protected $_defaultPropertiesFetched = false;
 
 	public function __construct($entryId=NULL){
