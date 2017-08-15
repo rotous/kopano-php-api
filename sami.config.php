@@ -10,6 +10,8 @@
  */
 
 return new Sami\Sami(__DIR__ . '/src', array(
+    'template_dirs' => array(__DIR__.'/sami-themes/phpduck'),
+    'theme'         => 'phpduck',
     'title'         => 'Kopano PHP API',
     'build_dir'     => __DIR__ . '/docs'
 ));

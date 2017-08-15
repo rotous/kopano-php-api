@@ -7,7 +7,7 @@ use \Kopano\Api\Logger as Logger;
 $server = new \Kopano\Api\Server('default:');
 //$server = new \Kopano\Api\Server('https://email.kopano.com:237/kopano');
 
-$user = $server->getUser('user3', 'user3');
+$user = $server->getUser('fabian', 'test');
 $user->logon();
 
 //$todolist = $user->getStore()->getTodoList();

@@ -1,0 +1,8 @@
+name:   phpduck
+parent: default
+
+static:
+    'css/phpduck.css': 'css/phpduck.css'
+
+global:
+    'layout/base.twig': 'layout/base.twig'
