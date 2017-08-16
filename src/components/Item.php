@@ -4,6 +4,9 @@ namespace Kopano\Api;
 
 require_once (__DIR__ . '/MapiObject.php');
 
+/**
+ * The item class represents MAPI Items. It is hello world!
+ */
 class Item extends MapiObject {
 
 	protected $_store;

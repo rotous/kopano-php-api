@@ -1,6 +1,61 @@
 /* Layout */
 
-/* Navigation tree */
+/* Navigation bar */
+#site-nav.navbar-default {
+    background: #074e7c;
+}
+#site-nav.navbar-default .navbar-brand, #site-nav.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+#site-nav .navbar-header{
+    padding-left: 35px;
+    background: url(../images/logo.png) no-repeat left center;
+}
+
+/* Hierarchy tree */
 #api-tree {
     background: #f8f8f8;
+}
+#api-tree div.leaf a {
+    margin-left: 0;
+}
+#api-tree div.leaf a::before {
+    content: '\E7EE';
+    font-family: 'Material Icons';
+    font-size: 16px;
+    color: #666;
+    width: 20px;
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+
+#api-tree ul li.opened > .hd span {
+    transform: none;
+}
+#api-tree .glyphicon-play {
+    vertical-align: text-bottom;
+}
+#api-tree .glyphicon-play:before {
+    content: '\E5CC';
+    font-family: 'Material Icons';
+    font-size: 16px;
+    color: #666;
+
+}
+#api-tree ul li.opened > .hd span.glyphicon-play:before {
+    content: '\E5CF';
+}
+
+#api-tree li.active > .hd {
+    background-color: #d9e8fb;
+}
+#api-tree li.active > .hd a {
+    color: #000;
+    font-weight: normal;
+}
+
+
+/* Misc */
+.label-default {
+    background-color: #074e7c;
 }
