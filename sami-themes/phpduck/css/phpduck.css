@@ -1,4 +1,9 @@
 /* Layout */
+#right-column {
+    height: 100%;
+    width: 80%;
+    position: fixed;
+}
 
 /* Navigation bar */
 #site-nav.navbar-default {
@@ -10,6 +15,8 @@
 #site-nav .navbar-header{
     padding-left: 35px;
     background: url(../images/logo.png) no-repeat left center;
+}
+.namespace-breadcrumbs {
 }
 
 /* Hierarchy tree */
@@ -56,6 +63,73 @@
 
 
 /* Misc */
+#page-content {
+    height: calc(100% - 150px);
+    position: relative;
+    padding-right: 0;
+}
+.page-header {
+    margin-right: 30px;
+}
+.page-header h1{
+    color: #66ab16;
+}
+
 .label-default {
     background-color: #074e7c;
+}
+
+.description {
+    background: inherit;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    background: none;
+    margin: 6px 0;
+    padding-left: 15px;
+}
+
+/* class navigation */
+ul.class-navigation {
+    background: #f8f8f8;
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 6px;
+    margin-right: 30px
+}
+ul.class-navigation:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+ul.class-navigation li.class-navigation-menu-header {
+    float: left;
+}
+ul.class-navigation li.class-navigation-menu-header .class-nav-item {
+    padding: 9px 15px;
+    display: inline-block;
+}
+.class-nav-submenu {
+    list-style: none;
+    position: absolute;
+    background: #f8f8f8;
+    padding: 6px 15px;
+    font-size: 12px;
+    visibility: hidden;
+}
+ul.class-navigation li.class-navigation-menu-header:hover .class-nav-submenu {
+    visibility: visible;
+}
+.class-nav-submenu li {
+    padding: 3px 6px 3px 0;
+}
+
+
+/* scroll box */
+div.scroll-box {
+    overflow: auto;
+    height: calc(100% - 173px);
+    padding-right: 30px;
 }

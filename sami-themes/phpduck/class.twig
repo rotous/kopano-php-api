@@ -1,0 +1,94 @@
+{% extends "default/class.twig" %}
+{% from "macros.twig" import render_classes, breadcrumbs, namespace_link, class_link, property_link, method_link, hint_link, source_link, method_source_link, deprecated, deprecations, todo, todos %}
+
+{% import _self as mymacros %}
+
+{% block page_content %}
+
+    <div class="page-header">
+        <h1>
+            {{ class.name|split('\\')|last|raw }}
+            {{ deprecated(class) }}
+        </h1>
+
+        <p>{{ block('class_signature') }}</p>
+    </div>
+
+    {{ deprecations(class) }}
+
+    {{ block('class_nav') }}
+
+    <div class="scroll-box">
+
+        {% if class.shortdesc or class.longdesc %}
+            <div class="description">
+                {% if class.shortdesc -%}
+                    <p>{{ class.shortdesc|desc(class) }}</p>
+                {%- endif %}
+                {% if class.longdesc -%}
+                    <p>{{ class.longdesc|desc(class) }}</p>
+                {%- endif %}
+                {% if project.config('insert_todos') == true %}
+                    {{ todos(class) }}
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if traits %}
+            <h2>Traits</h2>
+
+            {{ render_classes(traits) }}
+        {% endif %}
+
+        {% if constants %}
+            <h2>Constants</h2>
+
+            {{ block('constants') }}
+        {% endif %}
+
+        {% if properties %}
+            <h2>Properties</h2>
+
+            {{ block('properties') }}
+        {% endif %}
+
+        {% if methods %}
+            {#<h2>Methods</h2>
+
+            {{ block('methods') }}#}
+
+            <h2>Method Details</h2>
+
+            {{ block('methods_details') }}
+        {% endif %}
+
+    </div><!-- .scroll-box -->
+
+{% endblock %}
+
+{% block class_nav %}
+    <ul class="class-navigation">
+        {{ mymacros.class_nav_item(properties, 'properties', 'property') }}
+        {{ mymacros.class_nav_item(methods, 'methods', 'method') }}
+    </ul>
+{% endblock class_nav %}
+
+{% macro class_nav_item(hash, name, targetname) %}
+    <li class="class-navigation-menu-header">
+        <span class="class-nav-item">{{ name }} <sup>{{ (hash and hash|length>0) ? hash|length : 0 }}</sup>
+        {% if hash|length > 0 %}
+            <ul class="class-nav-submenu">
+                {% for subitem in hash %}
+                    <li>
+                        {% if subitem.static %}<span class="label label-primary">static</span>{% endif %}
+                        {% if subitem.public %}<span class="label label-success">public</span>{% endif %}
+                        {% if subitem.private %}<span class="label label-danger">private</span>{% endif %}
+                        {% if subitem.protected %}<span class="label label-warning">protected</span>{% endif %}
+                        &nbsp;
+                        <a href="#{{ targetname }}_{{ subitem.name|raw }}">{{ subitem.name|raw }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}
