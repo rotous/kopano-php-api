@@ -73,9 +73,52 @@
     </ul>
 {% endblock class_nav %}
 
+{% block properties %}
+    <div class="pd-prop-block-container">
+        {% for property in properties %}
+            <div class="pd-prop-block" id="property_{{ property.name|raw }}">
+                <div class="pd-prop-block-labels">
+                </div>
+                <div class="pd-prop-block-name">
+                    {% if property.static %}<span class="label label-primary">static</span>{% endif %}
+                    {% if property.public %}<span class="label label-success">public</span>{% endif %}
+                    {% if property.private %}<span class="label label-danger">private</span>{% endif %}
+                    {% if property.protected %}<span class="label label-warning">protected</span>{% endif %}
+                    <strong>{{ property.name }}</strong>
+                    {% if property.hint %}: {{ hint_link(property.hint) }}{% endif %}
+                </div>
+                <div class="pd-prop-block-desc">
+                    {{ property.shortdesc|desc(class) }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {#
+    <table class="table table-condensed">
+        {% for property in properties %}
+            <tr>
+                <td class="type" id="property_{{ property.name|raw }}">
+                    {% if property.static %}static{% endif %}
+                    {% if property.protected %}protected{% endif %}
+                    {% if property.private %}private{% endif %}
+                    {{ hint_link(property.hint) }}
+                </td>
+                <td>${{ property.name|raw }}</td>
+                <td class="last">{{ property.shortdesc|desc(class) }}</td>
+                <td>
+                    {%- if property.class is not same as(class) -%}
+                        <small>from&nbsp;{{ property_link(property, false, true) }}</small>
+                    {%- endif -%}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    #}
+{% endblock %}
+
 {% macro class_nav_item(hash, name, targetname) %}
     <li class="class-navigation-menu-header">
-        <span class="class-nav-item">{{ name }} <sup>{{ (hash and hash|length>0) ? hash|length : 0 }}</sup>
+        <span class="class-nav-item">{{ name }} <sup>{{ (hash and hash|length>0) ? hash|length : 0 }}</sup></span>
         {% if hash|length > 0 %}
             <ul class="class-nav-submenu">
                 {% for subitem in hash %}

@@ -8,7 +8,13 @@ require_once(__DIR__ . '/Server.php');
 require_once(__DIR__ . '/Store.php');
 
 class User {
+	/**
+	 * The username of the user
+	 * @var String
+	 * @private
+	 */
 	private $_username;
+
 	private $_password;
 
 	private $_server;

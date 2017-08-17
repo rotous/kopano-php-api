@@ -133,3 +133,19 @@ div.scroll-box {
     height: calc(100% - 173px);
     padding-right: 30px;
 }
+
+/* class properties */
+.pd-prop-block-container {
+    margin-bottom: 30px;
+}
+.pd-prop-block {
+    border-bottom: 1px solid #ddd;
+    padding: 9px 15px 9px 15px;
+    font-size: 12px;
+}
+.pd-prop-block:first-child {
+    border-top: 1px solid #ddd;
+}
+.pd-prop-block-name {
+    padding-bottom: 6px;
+}

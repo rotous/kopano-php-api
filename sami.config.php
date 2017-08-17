@@ -9,9 +9,21 @@
  * The documentation will now be build in the docs folder.
  */
 
-return new Sami\Sami(__DIR__ . '/src', array(
+ use Sami\Parser\Filter\TrueFilter;
+
+$sami = new Sami\Sami(__DIR__ . '/src', array(
     'template_dirs' => array(__DIR__.'/sami-themes/phpduck'),
     'theme'         => 'phpduck',
     'title'         => 'Kopano PHP API',
     'build_dir'     => __DIR__ . '/docs'
 ));
+
+/*
+ * Include this section if you want sami to document
+ * private and protected functions/properties
+ */
+$sami['filter'] = function () {
+    return new TrueFilter();
+};
+
+return $sami;
