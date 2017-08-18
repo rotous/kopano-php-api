@@ -174,7 +174,7 @@
 {% endmacro %}
 
 {% macro class_parts(typename, parts, class) %}
-    {% from "macros.twig" import method_link, method_source_link, hint_link, abbr_class %}
+    {% from "macros.twig" import method_link, method_source_link, hint_link, abbr_class, method_parameters_signature %}
     {% import _self as mymacros %}
     <div class="pd-{{ typename }}-block-container">
         {% for part in parts %}
@@ -189,9 +189,18 @@
                     </div>
                 {% endif %}
                 <div class="pd-prop-block-name">
+                    {% if part.deprecated %}
+                        <span class="label label-danger">deprecated</span>
+                    {% endif %}
+                    {% if part.final %}
+                        <span class="label label-info">final</span>
+                    {% endif %}
                     {{ mymacros.visibility_labels(part) }}
                     <strong>{{ part.name }}</strong>
-                {% if part.hint %}: {{ hint_link(part.hint) }}{% endif %}
+                    {% if typename=='methods' %}
+                        {{ method_parameters_signature(part) }}
+                    {% endif %}
+                    {% if part.hint %}: {{ hint_link(part.hint) }}{% endif %}
                 </div>
                 <div class="pd-prop-block-desc">
                     <span class="class-part-shortdesc">

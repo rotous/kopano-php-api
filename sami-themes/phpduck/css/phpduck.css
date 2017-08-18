@@ -115,15 +115,20 @@ ul.class-navigation li.class-navigation-menu-header .class-nav-item {
     list-style: none;
     position: absolute;
     background: #f8f8f8;
-    padding: 6px 15px;
+    padding: 6px 0 6px 15px;
     font-size: 12px;
     visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    max-height: calc(100% - 130px);
 }
 ul.class-navigation li.class-navigation-menu-header:hover .class-nav-submenu {
     visibility: visible;
 }
 .class-nav-submenu li {
-    padding: 3px 6px 3px 0;
+    padding: 3px 21px 3px 0;
 }
 
 

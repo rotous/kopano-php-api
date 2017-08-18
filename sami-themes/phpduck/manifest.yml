@@ -2,6 +2,7 @@ name:   phpduck
 parent: default
 
 static:
+    'js/phpduck.js': 'js/phpduck.js'
     'css/phpduck.css': 'css/phpduck.css'
     'images/logo.png': 'images/logo.png'
 
