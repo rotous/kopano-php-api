@@ -33,11 +33,15 @@ abstract class MapiObject {
 	protected $_defaultPropertyKeys = array();
 
 	/**
-	 * Initially false. Will be set to true when the properties defined in 
-	 * @var [type]
+	 * Initially false. Will be set to true when the properties defined in
+	 * @var Boolean
 	 */
 	protected $_defaultPropertiesFetched = false;
 
+	/**
+	 * Constructor
+	 * @param String $entryId The entryid of the MAPI object that is represented by this instance
+	 */
 	public function __construct($entryId=NULL){
 		$this->setEntryId($entryId);
 
@@ -45,6 +49,9 @@ abstract class MapiObject {
 	}
 
 	/**
+	 * Initializes the instance of this class by populating the _defaultPropertyKeys property. It will loop
+	 * through the class and all its parent up till Kopano\Api\MapiObject and will add all (statically)
+	 * defined _propertyKeys arrays.
 	 */
 	protected function _init() {
 		$class = get_class($this);
@@ -58,6 +65,13 @@ abstract class MapiObject {
 		}
 	}
 
+	/**
+	 * Setter method for the entryid of the MAPI object.
+	 * There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+	 * @param String $entryId The entryid that should be set on the MAPI object
+	 *
+	 * @return MapiObject This MapiObject
+	 */
 	public function setEntryId($entryId) {
 		if ( $entryId ){
 			$this->_entryId = $entryId;
@@ -66,10 +80,18 @@ abstract class MapiObject {
 		return $this;
 	}
 
+	/**
+	 * Getter method for the _entryId property. Will return false if no entryid is set.
+	 * @return String|Boolean The entryid of this MapiObject or false if none was set
+	 */
 	public function getEntryId() {
 		return isset($this->_entryId) ? $this->_entryId : false;
 	}
 
+	/**
+	 * Setter method for the _resource property.
+	 * @param resource $resource The Mapi resource that can be used in calls to the PHP-MAPI extension
+	 */
 	public function setResource($resource){
 		if ( is_resource($resource) ){ // TODO: check the resource type
 			$this->_resource = $resource;
@@ -77,10 +99,18 @@ abstract class MapiObject {
 	}
 
 	//TODO: I don't like this function...
+	/**
+	 * Getter method for the _resource property.
+	 * @return resource The Mapi resource that can be used in calls to the PHP-MAPI extension
+	 */
 	public function getResource() {
 		return $this->_resource;
 	}
 
+	/**
+	 * The open function will open the Mapi Object. Subclasses must implement this function and set the _resource
+	 * function when the object is opened
+	 */
 	abstract public function open();
 
 	public function addProperties($properties) {
