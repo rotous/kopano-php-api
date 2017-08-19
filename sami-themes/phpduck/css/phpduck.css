@@ -1,4 +1,13 @@
 /* Layout */
+#drag-handle {
+    background: transparent;
+    width: 6px;
+    height: 100%;
+    position: absolute;
+    left: calc(100% - 3px );
+    z-index: 1000;
+    cursor: ew-resize;
+}
 #right-column {
     height: 100%;
     width: 80%;
