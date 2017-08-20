@@ -133,11 +133,12 @@ ul.class-navigation li.class-navigation-menu-header .class-nav-item {
     align-content: flex-start;
     max-height: calc(100% - 130px);
 }
-ul.class-navigation li.class-navigation-menu-header:hover .class-nav-submenu {
+ul.class-navigation li.class-navigation-menu-header.pd-mouseover .class-nav-submenu {
     visibility: visible;
 }
 .class-nav-submenu li {
     padding: 3px 21px 3px 0;
+    white-space: nowrap;
 }
 
 
