@@ -96,6 +96,7 @@ class User {
 					$webapp_version,
 					$browser
 				);
+				// TODO: Check error
 			} else {
 				$this->_mapiSession = mapi_logon_zarafa(
 					$this->_username,

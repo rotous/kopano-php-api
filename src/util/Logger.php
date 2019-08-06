@@ -62,11 +62,11 @@ class Logger {
 	 * will be output as the value.
 	 * @param Misc|NULL $param2 If $param1 is a String and this is not NULL, it will be output as value.
 	 */
-	static public function logRestrictionHtml($param1, $param2){
+	static public function logRestrictionHtml($param1, $param2 = NULL){
 		$restriction = func_num_args() > 1 ? $param2 : $param1;
 		$restriction = Logger::_simplifyRestriction($restriction);
 
-		if ( func_num_args() > 1 ){
+		if ( func_num_args() > 1 && $param !== NULL){
 			Logger::logHtml($param1, $restriction);
 		} else {
 			Logger::logHtml($restriction);

@@ -246,6 +246,10 @@ class Store extends MapiObject{
 		return $this->getProperty(PR_IPM_WASTEBASKET_ENTRYID);
 	}
 
+	public function getDefaultContactsFolderEntryId() {
+		return $this->getRootProperty(PR_IPM_CONTACT_ENTRYID);
+	}
+
 	public function getPublicFolderEntryId() {
 		return $this->getRootProperty(PR_IPM_PUBLIC_FOLDERS_ENTRYID);
 	}
@@ -302,5 +306,14 @@ class Store extends MapiObject{
 		return $searchFolder;
 	}
 
+	public function getDefaultContactsFolder() {
+		$folder = new Folder($this->getDefaultContactsFolderEntryId(), $this);
+		// Get a property to open the folder and fetch the default properties
+		$folder->getProperty(PR_ENTRYID);
+		return $folder;
+	}
 
+	public function getReminderFolder() {
+		return $this->getRoot()->getReminderFolder();
+	}
 }

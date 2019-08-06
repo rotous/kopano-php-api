@@ -29,6 +29,17 @@ class Item extends MapiObject {
 		parent::__construct($entryId);
 	}
 
+	/**
+	 * Initializes the instance of this class by populating the _defaultPropertyKeys property. It will loop
+	 * through the class and all its parent up till Kopano\Api\MapiObject and will add all (statically)
+	 * defined _propertyKeys arrays.
+	 */
+	protected function _init() {
+		parent::_init();
+
+		$this->_defaultPropertyKeys = getPropIdsFromStrings($this->_store->getResource(), $this->_defaultPropertyKeys);
+	}
+
 	public function setStore($store){
 		if ( !$store instanceof Store ){
 			throw new Exception('No store passed as parameter');

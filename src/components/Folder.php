@@ -172,4 +172,18 @@ class Folder extends Item {
 
 		return false;
 	}
+
+	public function empty($flags = null) {
+		$this->open();
+		try {
+			if ( $flags === null ) {
+				mapi_folder_emptyfolder($this->getResource());
+			} else {
+				mapi_folder_emptyfolder($this->getResource(), $flags);
+			}
+		} catch (MAPIException $e) {
+			// TODO: Error handling
+			error_log("Cannot empty folder: " . $e->getMessage());
+		}
+	}
 }
