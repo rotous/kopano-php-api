@@ -34,7 +34,7 @@ class Logger {
 					// Let's assume this is an array with mapi properties
 					$param2 = Logger::parseProps($param2);
 				} else if ( isset($param2[0]) && $param2[0] instanceof MapiObject ){
-					foreach ( $param2 as $i=>$mapiObj ){
+					foreach ( $param2 as $i => $mapiObj ){
 						$param2[$i] = array(
 							'className' => get_class($mapiObj),
 							'properties' => Logger::parseProps($mapiObj->getProperties())
@@ -49,7 +49,7 @@ class Logger {
 					'properties' => Logger::parseProps($mapiObj->getProperties())
 				);
 			}
-			var_dump($param2);
+			echo str_replace("=>\n", ' => ', var_export($param2, true));
 			echo '</pre>';
 		} else {
 			Logger::logHtml(NULL, $param1);
