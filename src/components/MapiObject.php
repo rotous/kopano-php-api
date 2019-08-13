@@ -124,6 +124,7 @@ abstract class MapiObject {
 			if ( !$propertyKeys ){
 				return $this->_properties;
 			}
+
 			$propertyKeys = array_merge($propertyKeys, $this->_defaultPropertyKeys);
 			$this->_defaultPropertiesFetched = true;
 		}
@@ -157,9 +158,14 @@ abstract class MapiObject {
 		}
 
 		$properties = array();
-		foreach ( $propertyKeys as $key ){
-			if ( isset($this->_properties[$key]) ){
-				$properties[$key] = $this->_properties[$key];
+		foreach ($propertyKeys as $key => $keyValue) {
+			if (isset($this->_properties[$keyValue])) {
+				// Check for named properties
+				if (is_string($key)) {
+					$properties[$key] = $this->_properties[$key];
+				} else {
+					$properties[$keyValue] = $this->_properties[$keyValue];
+				}
 			}
 		}
 
@@ -167,7 +173,7 @@ abstract class MapiObject {
 	}
 
 	public function getProperty($propertyKey) {
-		$properties = $this->getProperties(array($propertyKey));
+		$properties = $this->getProperties(is_string($propertyKey) ? array($propertyKey => false) : array($propertyKey));
 		return isset($properties[$propertyKey]) ? $properties[$propertyKey] : NULL;
 	}
 

@@ -37,18 +37,28 @@ class Logger {
 					foreach ( $param2 as $i => $mapiObj ){
 						$param2[$i] = array(
 							'className' => get_class($mapiObj),
-							'properties' => Logger::parseProps($mapiObj->getProperties())
+							'properties' => Logger::parseProps($mapiObj->getProperties()),
 						);
 					}
 				}
 			} elseif ( $param2 instanceof MapiObject ){
 				$mapiObj = $param2;
+				$defPropKeys = $mapiObj->getDefaultPropertyKeys();
+				$parsedDefPropKeys = array_keys(Logger::parseProps(array_flip($defPropKeys)));
+				foreach ($parsedDefPropKeys as $i => $key) {
+					$keyName = array_keys($defPropKeys)[$i];
+					if (is_string($keyName)) {
+						$parsedDefPropKeys[$keyName] = $key;
+					}
+				}
+
 				$param2 = array(
 					'className' => get_class($mapiObj),
-					'defaultPropertyKeys' => array_keys(Logger::parseProps(array_combine($mapiObj->getDefaultPropertyKeys(), array_keys($mapiObj->getDefaultPropertyKeys())))),
-					'properties' => Logger::parseProps($mapiObj->getProperties())
+					'defaultPropertyKeys' => $parsedDefPropKeys,
+					'properties' => Logger::parseProps($mapiObj->getProperties()),
 				);
 			}
+
 			echo str_replace("=>\n", ' => ', var_export($param2, true));
 			echo '</pre>';
 		} else {
@@ -118,7 +128,7 @@ class Logger {
 
 			unset($param[$key]);
 			$param[$newKey] = $value;
-	}
+		}
 
 		return $param;
 	}
