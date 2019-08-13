@@ -58,7 +58,7 @@ abstract class MapiObject {
 		while ( $class !== 'Kopano\Api\MapiObject' ){
 			if ( isset($class::$_propertyKeys) && is_array($class::$_propertyKeys) ) {
 				$this->_defaultPropertyKeys =
-					array_values(array_unique(array_merge($this->_defaultPropertyKeys, $class::$_propertyKeys)));
+					array_unique(array_merge($this->_defaultPropertyKeys, $class::$_propertyKeys));
 			};
 
 			$class = get_parent_class($class);
@@ -114,7 +114,7 @@ abstract class MapiObject {
 	abstract public function open();
 
 	public function addProperties($properties) {
-		foreach ( $properties as $k=>$v ){
+		foreach ( $properties as $k => $v ){
 			$this->_properties[$k] = $v;
 		}
 	}
@@ -145,6 +145,14 @@ abstract class MapiObject {
 			$this->open();
 
 			$properties = mapi_getprops($this->_resource, $propertyKeys);
+
+			// Add the named properties with their names as keys
+			foreach ($propertyKeys as $k => $v) {
+				if (is_string($k)) {
+					$properties[$k] = $properties[$v];
+				}
+			}
+
 			$this->addProperties($properties);
 		}
 

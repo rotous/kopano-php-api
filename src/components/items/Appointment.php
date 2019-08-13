@@ -19,9 +19,9 @@ class Appointment extends Message {
         PR_MESSAGE_FLAGS,
         PR_FLAG_COMPLETE_TIME,
         PR_BLOCK_STATUS,
-        "PT_SYSTIME:PSETID_Common:0x8502", // reminder_time
-        "PT_BOOLEAN:PSETID_Common:0x8503", // reminder
-		"PT_SYSTIME:PSETID_Common:0x8560", // flagdueby
+        'reminder_time' => "PT_SYSTIME:PSETID_Common:0x8502", // reminder_time
+        'reminder' => "PT_BOOLEAN:PSETID_Common:0x8503", // reminder
+		'flagdueby' => "PT_SYSTIME:PSETID_Common:0x8560", // flagdueby
 	);
 /*
     $properties["received_by_entryid"] = PR_RECEIVED_BY_ENTRYID;

@@ -85,19 +85,20 @@ class Logger {
 
 	/**
 	 * Will convert keys to their string representation if found, and some binary values to hex values when possible.
+	 * Named properties will be added twice. Once with their int value as key and once with their name as key.
 	 * @param Array $param An associative array with MAPI properties
 	 *
 	 * @return Array MAPI properties array with converted keys and binary values
 	 */
-	static public function parseProps($param){
+	static public function parseProps($param) {
 		Logger::_createMapiPropList();
 
-		foreach ( $param as $key=>$value ){
+		foreach ($param as $key => $value) {
 			$prop = Logger::getPropertyString($key);
-			if ( $prop ){
+			if ($prop) {
 				$newKey = "0x".str_pad(strtoupper(dechex($key)),8, '0', STR_PAD_LEFT).' '.$prop;
 
-				if ( ($key & 0xFFFF) === PT_ERROR ){
+				if (($key & 0xFFFF) === PT_ERROR) {
 					$value = 'PT_ERROR: ' . Logger::getMapiErrorString($value);
 				} else {
 					if ( strpos($prop, 'ENTRYID') === strlen($prop)-strlen('ENTRYID') ||		// Let's assume this is an entryid and convert it to its hex representation
@@ -106,22 +107,31 @@ class Logger {
 						 $value = bin2hex($value);
 					}
 				}
-				$param[$newKey] = $value;
-			}else{
-				$newKey = "0x".str_pad(strtoupper(dechex($key)),8, '0', STR_PAD_LEFT);
-				$param[$newKey] = $value;
+			} else {
+				// Named properties
+				if (is_string($key)) {
+					$newKey = $key;
+				} else {
+					$newKey = "0x".str_pad(strtoupper(dechex($key)),8, '0', STR_PAD_LEFT);
+				}
 			}
+
 			unset($param[$key]);
-		}
+			$param[$newKey] = $value;
+	}
 
 		return $param;
 	}
 
 	static public function getPropertyString($propertyKeyInt){
+		if (!is_int($propertyKeyInt)) {
+			return '';
+		}
+
 		Logger::_createMapiPropList();
 
-		foreach (Logger::$_mapiPropList as $key=>$val){
-			if ( ($propertyKeyInt & 0xFFFF0000) === ($val & 0xFFFF0000) ){
+		foreach (Logger::$_mapiPropList as $key => $val) {
+			if (($propertyKeyInt & 0xFFFF0000) === ($val & 0xFFFF0000)) {
 				return $key;
 			}
 		}
