@@ -101,7 +101,7 @@ class Folder extends Item {
 		return $folders;
 	}
 
-	protected function _getItems($start=NULL, $limit=NULL, $properties=NULL, $assoc=false) {
+	protected function _getItems($start=NULL, $limit=NULL, $properties=NULL, $assoc=false, $sort=false) {
 		$this->open();
 
 		if ( $properties!==NULL && !is_array($properties) ){
@@ -121,6 +121,11 @@ class Folder extends Item {
 		$flags = $assoc===true ? MAPI_ASSOCIATED : 0;
 
 		$contentTable = mapi_folder_getcontentstable($this->_resource, $flags);
+
+		if (!is_array($sort)) {
+			$sort = Array(PR_MESSAGE_DELIVERY_TIME => TABLE_SORT_DESCEND);
+		}
+		mapi_table_sort($contentTable, $sort);
 		if ( $start === NULL ){
 			if ( is_array($properties) ){
 				$rows = mapi_table_queryallrows($contentTable, $properties);

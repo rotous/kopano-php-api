@@ -9,6 +9,7 @@ require_once (__DIR__ . '/MapiObject.php');
 require_once (__DIR__ . '/SearchFolder.php');
 require_once (__DIR__ . '/folders/RootFolder.php');
 require_once (__DIR__ . '/folders/CommonViewsFolder.php');
+require_once (__DIR__ . '/folders/InboxFolder.php');
 require_once (__DIR__ . '/folders/TodoListFolder.php');
 require_once (__DIR__ . '/folders/FinderFolder.php');
 
@@ -215,6 +216,10 @@ class Store extends MapiObject{
 		$this->setRootProperty(PR_ADDITIONAL_REN_ENTRYIDS_EX, $additionalRenEntryidsEx);
 
 		return $this;
+	}
+
+	public function getInbox() {
+		return InboxFolder::getInstance($this);
 	}
 
 	public function getIpmSubtreeEntryId() {

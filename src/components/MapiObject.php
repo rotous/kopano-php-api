@@ -119,23 +119,25 @@ abstract class MapiObject {
 		}
 	}
 
-	public function getProperties($propertyKeys=false) {
+	public function getProperties($requestedPropertyKeys=false) {
+		$propertyKeys = $requestedPropertyKeys;
+
 		if ( !$this->_defaultPropertiesFetched ){
-			if ( !$propertyKeys ){
+			if ( !$requestedPropertyKeys ){
 				return $this->_properties;
 			}
 
-			$propertyKeys = array_merge($propertyKeys, $this->_defaultPropertyKeys);
+			$propertyKeys = array_merge($requestedPropertyKeys, $this->_defaultPropertyKeys);
 			$this->_defaultPropertiesFetched = true;
 		}
 
-		if ( $propertyKeys === false ){
+		if ( $requestedPropertyKeys === false ){
 			return $this->_properties;
 		}
 
 		$allPropsFetched = true;
 		foreach ( $propertyKeys as $propKey ){
-			if ( !array_key_exists($propKey, $this->_properties) ){
+			if ( !array_key_exists($propKey, $this->_properties) && !(is_int($propKey) && array_key_exists($propKey | PT_ERROR, $this->_properties)) ){
 				$allPropsFetched = false;
 				break;
 			}
@@ -146,6 +148,9 @@ abstract class MapiObject {
 			$this->open();
 
 			$properties = mapi_getprops($this->_resource, $propertyKeys);
+			foreach($properties as $k=>$v) {
+				//error_log(Logger::getPropertyString($k) . ' - '. (($k&0xFFFF)) . ' - ' .$k . '-' . PR_ORIGINAL_SUBJECT);
+			}
 
 			// Add the named properties with their names as keys
 			foreach ($propertyKeys as $k => $v) {
@@ -158,12 +163,23 @@ abstract class MapiObject {
 		}
 
 		$properties = array();
-		foreach ($propertyKeys as $key => $keyValue) {
+		foreach ($requestedPropertyKeys as $key => $keyValue) {
 			if (isset($this->_properties[$keyValue])) {
 				// Check for named properties
 				if (is_string($key)) {
 					$properties[$key] = $this->_properties[$key];
 				} else {
+					$properties[$keyValue] = $this->_properties[$keyValue];
+				}
+			} elseif (is_int($keyValue)) {
+				$keyName = 0xFFFF0000 & $keyValue;
+				foreach ($this->_properties as $k => $v) {
+					if ($keyName === ($k & 0xFFFF0000)) {
+						$properties[$k] = $v;
+						break;
+					}
+				}
+				if (in_array($keyValue | PT_ERROR, $this->_properties)) {
 					$properties[$keyValue] = $this->_properties[$keyValue];
 				}
 			}
