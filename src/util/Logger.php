@@ -108,14 +108,17 @@ class Logger {
 			if ($prop) {
 				$newKey = "0x".str_pad(strtoupper(dechex($key)),8, '0', STR_PAD_LEFT).' '.$prop;
 
-				if (($key & 0xFFFF) === PT_ERROR) {
-					$value = 'PT_ERROR: ' . Logger::getMapiErrorString($value);
-				} else {
-					if ( strpos($prop, 'ENTRYID') === strlen($prop)-strlen('ENTRYID') ||		// Let's assume this is an entryid and convert it to its hex representation
-					strpos($prop, 'RECORD_KEY') === strlen($prop)-strlen('RECORD_KEY') ||		// Let's assume this is an record key and convert it to its hex representation
-					strpos($prop, 'INSTANCE_KEY') === strlen($prop)-strlen('INSTANCE_KEY') ){	// Let's assume this is an instance key and convert it to its hex representation
-						 $value = bin2hex($value);
-					}
+				// Check the type of the property to show it nicely
+				switch ($key & 0xFFFF) {
+					case PT_ERROR:
+						$value = 'PT_ERROR: ' . Logger::getMapiErrorString($value);
+						break;
+					case PT_SYSTIME:
+						$value = date('m-d-Y H:i:s', $value);
+						break;
+					case PT_BINARY:
+						$value = bin2hex($value);
+						break;
 				}
 			} else {
 				// Named properties
