@@ -179,8 +179,8 @@ abstract class MapiObject {
 						break;
 					}
 				}
-				if (in_array($keyValue | PT_ERROR, $this->_properties)) {
-					$properties[$keyValue] = $this->_properties[$keyValue];
+				if (key_exists($keyValue | PT_ERROR, $this->_properties)) {
+					$properties[$keyValue] = $this->_properties[$keyValue | PT_ERROR];
 				}
 			}
 		}
