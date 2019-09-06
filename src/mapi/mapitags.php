@@ -127,6 +127,7 @@ define('PR_ORIGINAL_SENT_REPRESENTING_EMAIL_ADDRESS'  ,mapi_prop_tag(PT_TSTRING,
 
 define('PR_CONVERSATION_TOPIC'                        ,mapi_prop_tag(PT_TSTRING,     0x0070));
 define('PR_CONVERSATION_INDEX'                        ,mapi_prop_tag(PT_BINARY,      0x0071));
+define('PR_CONVERSATION_ID'                           ,mapi_prop_tag(PT_BINARY,      0x3013));
 
 define('PR_ORIGINAL_DISPLAY_BCC'                      ,mapi_prop_tag(PT_TSTRING,     0x0072));
 define('PR_ORIGINAL_DISPLAY_CC'                       ,mapi_prop_tag(PT_TSTRING,     0x0073));
