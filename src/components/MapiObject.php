@@ -193,6 +193,10 @@ abstract class MapiObject {
 		return isset($properties[$propertyKey]) ? $properties[$propertyKey] : NULL;
 	}
 
+	public function get($propertyKey) {
+		return $this->getProperty($propertyKey);
+	}
+
 	public function getDefaultPropertyKeys() {
 		return $this->_defaultPropertyKeys;
 	}

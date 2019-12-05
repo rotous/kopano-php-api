@@ -97,10 +97,11 @@ class Logger {
 	 * Will convert keys to their string representation if found, and some binary values to hex values when possible.
 	 * Named properties will be added twice. Once with their int value as key and once with their name as key.
 	 * @param Array $param An associative array with MAPI properties
+	 * @param Boolean $html Set to true to return html escaped strings
 	 *
 	 * @return Array MAPI properties array with converted keys and binary values
 	 */
-	static public function parseProps($param) {
+	static public function parseProps($param, $html = true) {
 		Logger::_createMapiPropList();
 
 		foreach ($param as $key => $value) {
@@ -119,6 +120,8 @@ class Logger {
 					case PT_BINARY:
 						$value = bin2hex($value);
 						break;
+					case PT_BOOLEAN:
+						$value = $value ? 'true' : 'false';
 				}
 			} else {
 				// Named properties
@@ -130,7 +133,7 @@ class Logger {
 			}
 
 			unset($param[$key]);
-			$param[$newKey] = $value;
+			$param[$newKey] = $html === true ? htmlentities($value, ENT_HTML5, 'UTF-8') : $value;
 		}
 
 		return $param;

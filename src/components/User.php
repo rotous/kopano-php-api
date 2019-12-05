@@ -112,6 +112,10 @@ class User {
 			Logger::log('exception during logon', $e->getMessage());
 		}
 
+		if (!$this->_mapiSession) {
+			return false;
+		}
+
 		return $this;
 	}
 

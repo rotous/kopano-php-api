@@ -101,6 +101,12 @@ class Folder extends Item {
 		return $folders;
 	}
 
+	public function getRowCount() {
+		$this->open();
+		$table = mapi_folder_getcontentstable($this->_resource);
+		return mapi_table_getrowcount($table);
+	}
+
 	protected function _getItems($start=NULL, $limit=NULL, $properties=NULL, $assoc=false, $sort=false) {
 		$this->open();
 

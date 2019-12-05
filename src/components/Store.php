@@ -321,4 +321,8 @@ class Store extends MapiObject{
 	public function getReminderFolder() {
 		return $this->getRoot()->getReminderFolder();
 	}
+
+	public function getSentItemsFolder() {
+		return $this->getFolderFromEntryId($this->getSentItemsEntryId());
+	}
 }
